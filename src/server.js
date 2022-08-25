@@ -9,4 +9,9 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
+app.use((err, req, res, _next) => {
+  console.error(err);
+  res.status(500).json({ message: 'Erro no servidor' });
+});
+
 app.listen(port, () => console.log('ouvindo porta', port));
