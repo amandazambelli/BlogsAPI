@@ -4,13 +4,6 @@ const Category = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
   });
 
-  Category.associate = (models) => {
-    Category.belongsTo(models.PostCategory, {
-      foreignKey: 'categoryId',
-      as: 'id'
-    })
-  };
-
   return Category;
 };
 

@@ -3,15 +3,15 @@ const BlogPost = (sequelize, DataTypes) => {
       id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
       title: DataTypes.STRING,
       content: DataTypes.STRING,
-      userId: DataTypes.STRING,
+      userId: DataTypes.INTEGER,
       published: DataTypes.DATE,
       updated: DataTypes.DATE
     });
 
     BlogPost.associate = (models) => {
       BlogPost.belongsTo(models.User, {
-        foreignKey: 'id',
-        as: 'userId'
+        foreignKey: 'userId',
+        as: 'user'
       })
     };
   
