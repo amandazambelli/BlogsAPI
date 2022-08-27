@@ -1,21 +1,14 @@
 const { User } = require('../database/models');
 
-const create = async ({ displayName, email, password, image }) => {
-  const newUser = await User.create({ displayName, email, password, image });
+const create = async (name) => {
+  const newCategory = await User.create(name);
     
-  return newUser;
+  return newCategory;
 };
 
 const findAll = async () => {
-  const users = await User.findAll(
-    { attributes: { exclude: ['password'] } },
-  );
-  return users;
+  const categories = await User.findAll();
+  return categories;
 };
 
-const findByPk = async (id) => {
-  const findUser = await User.findAll(id);
-  return findUser;
-};
-
-module.exports = { create, findAll, findByPk };
+module.exports = { create, findAll };

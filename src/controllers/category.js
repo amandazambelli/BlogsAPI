@@ -3,22 +3,19 @@ const categoryService = require('../services/category');
 const create = async (req, res) => {
   const { name } = req.body;
 
-  await categoryService.create(name);
+  if (!name) {
+    return res.status(400).json({ message: '"name" is required' });
+  }
 
-  return res.status(201).json(name);
+  const newCategory = await categoryService.create(name);
+
+  return res.status(201).json(newCategory);
 };
 
 const findAll = async (req, res) => {
-  const users = await userService.findAll();
+  const categories = await categoryService.findAll();
 
-  return res.status(200).json(users);
+  return res.status(200).json(categories);
 };
 
-const findByPk = async (req, res) => {
-  const { id } = req.params;
-  const findUser = await userService.findByPk(id);
-
-  return res.status(200).json(findUser);
-};
-
-module.exports = { create, findAll, findByPk };
+module.exports = { create, findAll };
