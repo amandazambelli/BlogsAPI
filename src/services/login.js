@@ -5,6 +5,8 @@ const loginService = async (email, password) => {
     where: { email, password },
   });
 
+  console.log(userLogin);
+
   return userLogin;
 };
 

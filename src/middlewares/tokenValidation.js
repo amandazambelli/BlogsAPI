@@ -11,9 +11,9 @@ const verifyToken = async (req, res, next) => {
   }
 
   try {
-    const { id } = jwt.verify(token, SECRET);
+    const { payload } = jwt.verify(token, SECRET);
     
-    req.user = id;
+    req.user = payload;
 
     next();
   } catch (err) {
