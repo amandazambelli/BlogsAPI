@@ -5,9 +5,9 @@ const generateToken = require('../helpers/generateToken');
 const login = async (req, res) => {
   const { email, password } = req.body;
 
-  await loginService(email, password);
+  const user = await loginService(email, password);
 
-  const token = generateToken(email);
+  const token = generateToken(user.id);
   return res.status(200).json({ token });
 };
 

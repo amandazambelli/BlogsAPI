@@ -5,15 +5,9 @@ const generateToken = require('../helpers/generateToken');
 const create = async (req, res) => {
   const { displayName, email, password, image } = req.body;
 
-  await userService.create({ displayName, email, password, image });
+  const result = await userService.create({ displayName, email, password, image });
 
-  const payload = {
-    displayName,
-    email,
-    image,
-  };
-
-  const token = generateToken(payload);
+  const token = generateToken(result.id);
   return res.status(201).json({ token });
 };
 
