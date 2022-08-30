@@ -18,4 +18,10 @@ const findByPk = async (id) => {
   return findUser;
 };
 
-module.exports = { create, findAll, findByPk };
+const destroy = async (id) => {
+  const user = await User.destroy({ where: { id } });
+
+  return user;
+};
+
+module.exports = { create, findAll, findByPk, destroy };

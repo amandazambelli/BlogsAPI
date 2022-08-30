@@ -28,4 +28,10 @@ const findByPk = async (req, res) => {
   return res.status(200).json(findUser);
 };
 
-module.exports = { create, findAll, findByPk };
+const destroy = async (req, res) => {  
+  await userService.destroy(req.user);
+
+  return res.status(204).end();
+};
+
+module.exports = { create, findAll, findByPk, destroy };

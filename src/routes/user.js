@@ -14,5 +14,6 @@ const route = express.Router();
 route.post('/', verifyName, verifyPassword, verifyEmail, userController.create);
 route.get('/', verifyToken, userController.findAll);
 route.get('/:id', verifyToken, userController.findByPk);
+route.delete('/me', verifyToken, userController.destroy);
 
 module.exports = route;
