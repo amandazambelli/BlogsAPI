@@ -10,6 +10,7 @@ const route = express.Router();
 
 route.post('/', verifyToken, verifyPost, postController.create);
 route.get('/', verifyToken, postController.findAll);
+route.get('/search', verifyToken, postController.search);
 route.get('/:id', verifyToken, postController.findByPk);
 route.put('/:id', verifyToken, verifyPostEditing, postController.update);
 route.delete('/:id', verifyToken, postController.destroy);

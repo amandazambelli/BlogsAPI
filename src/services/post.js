@@ -1,8 +1,14 @@
-const { BlogPost, Category, PostCategory, User, sequelize } = require('../database/models');
+const { Op } = require('sequelize');
+
+const {
+  BlogPost, Category, PostCategory,
+  User, sequelize,
+} = require('../database/models');
 
 const create = async ({ title, content, categoryIds }, userId) => {
-  const categories = await Category.findAll();
-  const checkCategory = categories.filter((category) => categoryIds.includes(category.id));
+  const checkCategory = await Category.findAll({ where: { id: categoryIds } });
+
+  if (checkCategory.length !== categoryIds.length) return false;
 
   try {
     const result = await sequelize.transaction(async (t) => {
@@ -64,4 +70,25 @@ const destroy = async (id) => {
   return post;
 };
 
-module.exports = { create, findAll, findByPk, update, destroy };
+const search = async (searchTerm) => {
+  if (searchTerm === '') {
+    const getAll = await BlogPost.findAll({ include: [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Category, as: 'categories', through: { attributes: [] } },
+    ] });
+    return getAll;
+  }
+
+  const query = `%${searchTerm}%`;
+  const searchResult = await BlogPost.findAll(
+    { include: [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Category, as: 'categories', through: { attributes: [] } },
+    ],
+      where: { [Op.or]: { title: { [Op.like]: query }, content: { [Op.like]: query } } } },
+  );
+
+  return searchResult;
+};
+
+module.exports = { create, findAll, findByPk, update, destroy, search };

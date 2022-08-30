@@ -6,6 +6,8 @@ const create = async (req, res) => {
 
   const newPost = await postService.create({ title, content, categoryIds }, req.user);
 
+  if (newPost === false) return res.status(400).json({ message: '"categoryIds" not found' });
+
   return res.status(201).json(newPost);
 };
 
@@ -65,4 +67,12 @@ const destroy = async (req, res) => {
   return res.status(204).end();
 };
 
-module.exports = { create, findAll, findByPk, update, destroy };
+const search = async (req, res) => {
+  const { q } = req.query;
+
+  const searchResult = await postService.search(q);
+
+  return res.status(200).json(searchResult);
+};
+
+module.exports = { create, findAll, findByPk, update, destroy, search };
